@@ -401,6 +401,22 @@ cd ~/terraform_ansible
 make help
 ```
 
+```markdown
+## Comandos Makefile Disponíveis
+
+| Comando | Descrição |
+|---------|-----------|
+| `make help` | Exibe todos os comandos disponíveis. |
+| `make setup` | Configura o ambiente completo (bootstrap + tfvars). |
+| `make apply-dev` | Aplica a infraestrutura no workspace `dev`. |
+| `make apply-prod` | Aplica a infraestrutura no workspace `prod`. |
+| `make destroy` | Remove todos os recursos da AWS e limpa o ambiente local. |
+| `make clean` | Remove apenas os arquivos locais (state, .terraform). |
+
+```
+
+
+
 Comando: 
 ```bash
 make destroy
