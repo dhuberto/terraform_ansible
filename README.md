@@ -256,25 +256,11 @@ terraform workspace new dev || terraform workspace select dev && terraform apply
 ```
 <small>
     
-<img width="856" height="307" alt="{45DB3261-995A-40D2-B9C1-A1C644534B8D}" src="https://github.com/user-attachments/assets/4d3be41c-b755-417c-9e6a-86c1f156ca67" />
-    
+imagem   
 Output:
 
 ```text
-descricao_portas_adicionais = "Portas adicionais liberadas: 443"
-dns_publico_instancia = "ec2-98-84-151-231.compute-1.amazonaws.com"
-ip_publico_instancia = "98.84.151.231"
-security_group_id = "sg-0c2a4f1ef82d75280"
-senha_exemplo_sensivel = <sensitive>
-subnet_id = "subnet-01a2c1b4f5b63d198"
-tags_aplicadas = {
-  "Ambiente" = "dev"
-  "Curso" = "pos-devops-iac"
-  "Equipe" = "DevOps"
-  "Name" = "instancia-curso-variaveis-outputs"
-}
-vpc_id = "vpc-059ca6f14ded18aee"
-workspace_atual = "dev"
+saida
 ```
 </small>
 
@@ -284,25 +270,12 @@ terraform workspace new prod || terraform workspace select prod && terraform app
 ```
 <small>
 
-<img width="857" height="329" alt="{FC2547CF-1601-4859-9A81-E48D5B2B6E35}" src="https://github.com/user-attachments/assets/440aca46-858f-42ef-a9d4-e2ced387ccb9" />
-    
+imagem
+
 Output:
 
 ```text
-descricao_portas_adicionais = "Portas adicionais liberadas: 443"
-dns_publico_instancia = "ec2-100-24-38-183.compute-1.amazonaws.com"
-ip_publico_instancia = "100.24.38.183"
-security_group_id = "sg-065cfa45ea90e872c"
-senha_exemplo_sensivel = <sensitive>
-subnet_id = "subnet-095422d637d726f27"
-tags_aplicadas = {
-  "Ambiente" = "prod"
-  "Curso" = "pos-devops-iac"
-  "Equipe" = "DevOps"
-  "Name" = "instancia-curso-variaveis-outputs"
-}
-vpc_id = "vpc-070983c131a97aa2e"
-workspace_atual = "prod"
+saida
 ```
 </small>
 
@@ -322,24 +295,7 @@ terraform workspace select dev && terraform destroy -auto-approve
 Output:
 
 ```text
-module.webserver.aws_route_table_association.public: Destroying... [id=rtbassoc-086c865cd4b81da98]
-module.webserver.aws_instance.server: Destroying... [id=i-045677b2699cd5d15]
-module.webserver.aws_route_table_association.public: Destruction complete after 1s
-module.webserver.aws_route_table.public: Destroying... [id=rtb-0815bb4c1141245fc]
-module.webserver.aws_route_table.public: Destruction complete after 1s
-module.webserver.aws_internet_gateway.main: Destroying... [id=igw-03fd01332530507bc]
-module.webserver.aws_instance.server: Still destroying... [id=i-045677b2699cd5d15, 00m52s elapsed]
-module.webserver.aws_internet_gateway.main: Still destroying... [id=igw-03fd01332530507bc, 00m50s elapsed]
-module.webserver.aws_instance.server: Destruction complete after 53s
-module.webserver.aws_subnet.public: Destroying... [id=subnet-0955454dd42a61e07]
-module.webserver.aws_security_group.web: Destroying... [id=sg-09362f9348efa5734]
-module.webserver.aws_internet_gateway.main: Destruction complete after 51s
-module.webserver.aws_subnet.public: Destruction complete after 1s
-module.webserver.aws_security_group.web: Destruction complete after 1s
-module.webserver.aws_vpc.main: Destroying... [id=vpc-036941e8faebe8e8c]
-module.webserver.aws_vpc.main: Destruction complete after 1s
-
-Destroy complete! Resources: 7 destroyed.
+saida
 ```
 </small>
 
@@ -351,31 +307,7 @@ terraform workspace select prod && terraform destroy -auto-approve
     
 Output:
 ```text
-module.webserver.aws_route_table_association.public: Destroying... [id=rtbassoc-0a65b0b4d4d9b7311]
-module.webserver.aws_instance.server: Destroying... [id=i-02ac340ba2d7a80c3]
-module.webserver.aws_route_table_association.public: Destruction complete after 1s
-module.webserver.aws_route_table.public: Destroying... [id=rtb-098662824c2d67f35]
-module.webserver.aws_route_table.public: Destruction complete after 1s
-module.webserver.aws_internet_gateway.main: Destroying... [id=igw-0cb28c35a9a7955bf]
-module.webserver.aws_instance.server: Still destroying... [id=i-02ac340ba2d7a80c3, 00m10s elapsed]
-module.webserver.aws_internet_gateway.main: Still destroying... [id=igw-0cb28c35a9a7955bf, 00m10s elapsed]
-module.webserver.aws_instance.server: Still destroying... [id=i-02ac340ba2d7a80c3, 00m20s elapsed]
-module.webserver.aws_internet_gateway.main: Still destroying... [id=igw-0cb28c35a9a7955bf, 00m28s elapsed]
-module.webserver.aws_instance.server: Still destroying... [id=i-02ac340ba2d7a80c3, 00m30s elapsed]
-module.webserver.aws_internet_gateway.main: Still destroying... [id=igw-0cb28c35a9a7955bf, 00m38s elapsed]
-module.webserver.aws_instance.server: Still destroying... [id=i-02ac340ba2d7a80c3, 00m40s elapsed]
-module.webserver.aws_internet_gateway.main: Still destroying... [id=igw-0cb28c35a9a7955bf, 00m48s elapsed]
-module.webserver.aws_instance.server: Still destroying... [id=i-02ac340ba2d7a80c3, 00m50s elapsed]
-module.webserver.aws_instance.server: Destruction complete after 51s
-module.webserver.aws_security_group.web: Destroying... [id=sg-089d42feac6d09544]
-module.webserver.aws_subnet.public: Destroying... [id=subnet-0805c867ef357b49b]
-module.webserver.aws_internet_gateway.main: Destruction complete after 50s
-module.webserver.aws_subnet.public: Destruction complete after 1s
-module.webserver.aws_security_group.web: Destruction complete after 1s
-module.webserver.aws_vpc.main: Destroying... [id=vpc-0d5a351a0fba8e29b]
-module.webserver.aws_vpc.main: Destruction complete after 0s
-
-Destroy complete! Resources: 7 destroyed.
+saida
 ```
 </small>
 
@@ -388,10 +320,7 @@ aws s3 rb s3://danilo-terraform-backend-2026 --force
     
 Output:
 ```text
-delete: s3://danilo-terraform-backend-2026/terraform/atividade1/terraform.tfstate
-delete: s3://danilo-terraform-backend-2026/env:/dev/terraform/atividade1/terraform.tfstate
-delete: s3://danilo-terraform-backend-2026/env:/prod/terraform/atividade1/terraform.tfstate
-remove_bucket: danilo-terraform-backend-2026
+saida
 ```
 </small>
 
@@ -404,26 +333,7 @@ aws dynamodb delete-table --table-name terraform-locks
     
 Output:
 ```text
-{
-    "TableDescription": {
-        "TableName": "terraform-locks",
-        "TableStatus": "DELETING",
-        "ProvisionedThroughput": {
-            "NumberOfDecreasesToday": 0,
-            "ReadCapacityUnits": 0,
-            "WriteCapacityUnits": 0
-        },
-        "TableSizeBytes": 0,
-        "ItemCount": 0,
-        "TableArn": "arn:aws:dynamodb:us-east-1:713415863067:table/terraform-locks",
-        "TableId": "3f07c598-66d7-4257-aa20-33ba503360ad",
-        "BillingModeSummary": {
-            "BillingMode": "PAY_PER_REQUEST",
-            "LastUpdateToPayPerRequestDateTime": "2026-08-06T16:01:00.483000-03:00"
-        },
-        "DeletionProtectionEnabled": false
-    }
-}
+saida
 ```
 </small>
 
