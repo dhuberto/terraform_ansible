@@ -45,31 +45,31 @@ echo "Aguardando tabela ficar ativa..."
 aws dynamodb wait table-exists --table-name $TABLE_NAME
 echo "Tabela pronta!"
 
-# 5. Criar Key Pair (se nao existir)
+# 5. Criar Key Pair vockey (DELETE e RECRIA se ja existir)
 echo ""
-echo "Verificando Key Pair..."
-KEY_NAME="danilo-key"
+echo "Criando Key Pair vockey..."
+KEY_NAME="vockey"
+
+# Verifica se a chave existe na AWS
 if aws ec2 describe-key-pairs --key-name $KEY_NAME 2>&1 | grep -q 'InvalidKeyPair.NotFound'; then
-    aws ec2 create-key-pair \
-        --key-name $KEY_NAME \
-        --query 'KeyMaterial' \
-        --output text > ~/.ssh/$KEY_NAME.pem
-    chmod 400 ~/.ssh/$KEY_NAME.pem
-    echo "Key Pair criado: $KEY_NAME"
+    echo "Key Pair nao existe. Criando..."
 else
-    echo "Key Pair ja existe: $KEY_NAME"
+    echo "Key Pair ja existe. Deletando e recriando..."
+    aws ec2 delete-key-pair --key-name $KEY_NAME
 fi
+
+# Cria a nova chave
+aws ec2 create-key-pair \
+    --key-name $KEY_NAME \
+    --query 'KeyMaterial' \
+    --output text > ~/.ssh/$KEY_NAME.pem
+chmod 400 ~/.ssh/$KEY_NAME.pem
+echo "Key Pair criado: $KEY_NAME"
 
 # 6. Verificar se a chave privada existe
 if [ ! -f ~/.ssh/$KEY_NAME.pem ]; then
-    echo "Chave privada nao encontrada: ~/.ssh/$KEY_NAME.pem"
-    echo "Criando chave novamente..."
-    aws ec2 create-key-pair \
-        --key-name $KEY_NAME \
-        --query 'KeyMaterial' \
-        --output text > ~/.ssh/$KEY_NAME.pem
-    chmod 400 ~/.ssh/$KEY_NAME.pem
-    echo "Chave criada: ~/.ssh/$KEY_NAME.pem"
+    echo "ERRO: Chave privada nao encontrada: ~/.ssh/$KEY_NAME.pem"
+    exit 1
 fi
 
 # 7. Verificar permissao da chave
