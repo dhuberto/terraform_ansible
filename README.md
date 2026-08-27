@@ -1,12 +1,4 @@
-<img width="917" height="586" alt="{9132D8BB-CB8B-4465-9427-DC8335E3AE57}" src="https://github.com/user-attachments/assets/1c334be6-508f-45db-8991-965713bd0c37" />
-
-prod
-<img width="895" height="552" alt="{2DBB39B8-B891-4E7D-9383-BC35FD3D2306}" src="https://github.com/user-attachments/assets/c2825c1d-3212-4bb7-becf-58714615119f" />
-
-
-
-
-# Atividade Final 2 – Terraform e Ansible
+# Atividade 2 - Final  – Terraform e Ansible
 
 Provisionamento de infraestrutura web na AWS com Terraform e configuração automatizada com Ansible, utilizando state remoto S3 com DynamoDB para lock, workspaces (dev/prod), e Ansible Vault para dados sensíveis.
 
@@ -147,11 +139,17 @@ O comando vai pedir cinco informações, uma por vez:
 # Default region name [None]: us-east-1
 # Default output format [None]: json
 
-Serão criados os arquivos:
+# Serão criados os arquivos:
 ~/.aws/credentials
 ~/.aws/config
-# São os tokens de login e senha
+# São os tokens de login e senha aws
+```
 
+```bash
+# 2. Ajustar permissões
+
+chmod 400 ~/.aws/credentials
+chmod 400 ~/.aws/config
 ```
 
 ## Checklist final de verificação
@@ -190,157 +188,217 @@ Comando:
 ```bash
 git clone https://github.com/dhuberto/terraform_ansible.git
 ```
+Baixar projeto, Comando: 
+```bash
+cd ~/terraform_ansible
+```
+### Tornar scripts executáveis
+Comando: 
+```bash
+chmod +x scripts/*.sh
+```
+
+
+### Configurar Ansible Vault
+Comandos: 
+```bash
+cd ~/terraform_ansible/ansible
+echo "admin123" > vault_pass.txt
+chmod 600 vault_pass.txt
+echo "admin_password: 'admin123'" > vault.yml
+ansible-vault encrypt vault.yml
+
+#Digite a senha: admin123
+#repita: admin123
+```
+
+
+### Executar configuração completa
+Comando: 
+```bash
+make setup
+```
+
+
+### Voltar para terraform
 Comando: 
 ```bash
 cd ~/terraform_ansible/terraform
 ```
-### Validações e Formatação dos Confs
-Comando: 
-```bash
-terraform fmt -check
-```
-Output:
-```bash
-backend.tf
-main.tf
-terraform.tfvars
-variables.tf
-```
-Comando: 
-```bash
-terraform validate
-```
-Output:
-```bash
-Success! The configuration is valid.
-```
 
-### Execute o comando abaixo para gerar o o novo terraform.tfvars terraform.tfvars (com seu IP real)
-Comando: 
-```bash
-cp terraform.tfvars.example terraform.tfvars && sed -i "s/meu_ip_cidr = .*/meu_ip_cidr = \"$(curl -s https://checkip.amazonaws.com)\/32\"/" terraform.tfvars
-```
-## Crie o bucket S3 e a tabela DynamoDB Cria (backend local) (primeira execução) 
+### Inicializar
 Comando: 
 ```bash
 terraform init -reconfigure
 ```
+
+### Validar
 Comando: 
 ```bash
-terraform apply -auto-approve -target=aws_s3_bucket.terraform_state -target=aws_dynamodb_table.terraform_locks
+terraform validate
 ```
 
-### Após a criação, renomeie o arquivo backend-setup.tf para evitar recriação acidental:
+### voltar para o diretório principal
 Comando: 
 ```bash
-mv backend-setup.tf backend-setup.tf.bak
+cd ..
 ```
 
-### Executando o terraform plan para identificar se o terraform consegue acessar o estado remoto 
-
-Comando:
-```bash
-terraform plan
-```
-
-### Ative o backend remoto S3
-Comando: 
-```bash
-mv backend.tf.disabled backend.tf
-```
-
-### Migrar o estado para o S3
-Comando: 
-```bash
-terraform init -migrate-state
-```
-<small>Responda: <span style="color: red;">yes</span></small>
 
 ### Crie os workspaces dos ambientes separados e aplique:
+
+### Levantar o ambiente DEV
 Comando: 
 ```bash
-terraform workspace new dev || terraform workspace select dev && terraform apply -auto-approve
+make apply-dev
 ```
-<small>
-    
-imagem   
+
 Output:
 
 ```text
-saida
-```
-</small>
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
-Comando:     
+Outputs:
+
+application_url = "http://54.87.207.32:3000"
+instance_public_dns = "ec2-54-87-207-32.compute-1.amazonaws.com"
+instance_public_ip = "54.87.207.32"
+security_group_id = "sg-01555b608ec8c9a5f"
+workspace_atual = "dev"
+
+```
+<img width="917" height="586" alt="{9132D8BB-CB8B-4465-9427-DC8335E3AE57}" src="https://github.com/user-attachments/assets/1c334be6-508f-45db-8991-965713bd0c37" /> 
+
+
+
+### Levantar o ambiente PROD
+Comando: 
 ```bash
-terraform workspace new prod || terraform workspace select prod && terraform apply -auto-approve
+make apply-prod
 ```
-<small>
-
-imagem
 
 Output:
 
 ```text
-saida
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+application_url = "http://98.93.113.117:3000"
+instance_public_dns = "ec2-98-93-113-117.compute-1.amazonaws.com"
+instance_public_ip = "98.93.113.117"
+security_group_id = "sg-0920c4421ac46ec8c"
+workspace_atual = "prod"
+
 ```
-</small>
+
+<img width="895" height="552" alt="{2DBB39B8-B891-4E7D-9383-BC35FD3D2306}" src="https://github.com/user-attachments/assets/c2825c1d-3212-4bb7-becf-58714615119f" />
+
 
 ### O Resultado são os Output com os endereços de acesso de cada ambiente
 
 ## Caso queira Destruir (apagar tudo)
+Ver ajuda:
+
 Comando: 
 ```bash
-cd ~/aula_iac
+cd ~/terraform_ansible
 ```
+
+```bash
+make help
+```
+
 Comando: 
 ```bash
-terraform workspace select dev && terraform destroy -auto-approve
+make destroy
 ```
 <small>
     
 Output:
 
 ```text
-saida
-```
-</small>
+ATENÇÃO: Isso vai destruir TODOS os recursos!
+Digite 'sim' para confirmar: sim
+==========================================
+DESTRUINDO TODOS OS RECURSOS
+==========================================
 
-Comando: 
-```bash
-terraform workspace select prod && terraform destroy -auto-approve
-```
-<small>
-    
-Output:
-```text
-saida
-```
-</small>
+ATENCAO: Isso vai destruir TODOS os recursos da AWS!
+Tem certeza? (digite 'sim' para confirmar): sim
 
-Comando: 
+Destruindo recursos do Terraform...
+  - Destruindo workspace dev...
+Switched to workspace "dev".
+data.aws_ami.amazon_linux: Reading...
+data.aws_availability_zones.available: Reading...
+aws_vpc.main: Refreshing state... [id=vpc-092fcd60930d7820c]
+data.aws_availability_zones.available: Read complete after 0s [id=us-east-1]
+data.aws_ami.amazon_linux: Read complete after 1s [id=ami-02b3d83d84b07786d]
+aws_subnet.public: Refreshing state... [id=subnet-0619a821070a041e9]
+aws_internet_gateway.igw: Refreshing state... [id=igw-0464e854d6f7a2256]
+aws_security_group.web_sg: Refreshing state... [id=sg-038144a3a93635f02]
+aws_route_table.public: Refreshing state... [id=rtb-008ae45d3cb29870c]
+aws_instance.web: Refreshing state... [id=i-09a2af576edbaea89]
+aws_route_table_association.public: Refreshing state... [id=rtbassoc-03cad837c6efc60cb]
+null_resource.run_ansible: Refreshing state... [id=4269767512034835537]
+Plan: 0 to add, 0 to change, 8 to destroy.
 
-```bash
-aws s3 rb s3://danilo-terraform-backend-2026 --force
-```
-<small>
-    
-Output:
-```text
-saida
-```
-</small>
+Changes to Outputs:
+  - application_url     = "http://35.173.196.218:3000" -> null
+  - instance_public_dns = "ec2-35-173-196-218.compute-1.amazonaws.com" -> null
+  - instance_public_ip  = "35.173.196.218" -> null
+  - security_group_id   = "sg-038144a3a93635f02" -> null
+  - workspace_atual     = "dev" -> null
 
-Comando:
 
-```bash
-aws dynamodb delete-table --table-name terraform-locks
-```
-<small>
-    
-Output:
-```text
-saida
+
+Destroy complete! Resources: 8 destroyed.
+  - Destruindo workspace prod...
+Switched to workspace "prod".
+
+Changes to Outputs:
+  - application_url     = "http://54.173.176.87:3000" -> null
+  - instance_public_dns = "ec2-54-173-176-87.compute-1.amazonaws.com" -> null
+  - instance_public_ip  = "54.173.176.87" -> null
+  - security_group_id   = "sg-0e5cd325b587de0a9" -> null
+  - workspace_atual     = "prod" -> null
+nul
+
+Destroy complete! Resources: 8 destroyed.
+Recursos do Terraform destruidos!
+
+Removendo bucket S3...
+Removendo todas as versoes do bucket...
+{
+    "Deleted": [
+        {
+            "Key": "env:/dev/terraform_ansible/terraform.tfstate",
+            "VersionId": "tEbBY1CKzJFPHiuqNtdhC8CU21gvGksI"
+        },
+
+remove_bucket: danilo-terraform-backend-2026
+Bucket removido: danilo-terraform-backend-2026
+
+Removendo tabela DynamoDB...
+
+Removendo Key Pair da AWS...
+{
+    "Return": true,
+    "KeyPairId": "key-07175a0377fa6d07a"
+}
+Key Pair removido: vockey
+
+Removendo chave privada local...
+Chave privada removida: /home/danilo/.ssh/vockey.pem
+
+Removendo estado local do Terraform...
+Estado local removido
+
+==========================================
+DESTRUICAO COMPLETA CONCLUIDA!
+==========================================
+
 ```
 </small>
 
@@ -352,7 +410,7 @@ cd ..
 ```
 Comando:
 ```bash
-rm -rf aula_iac
+rm -rf ~/terraform_ansible
 ```
 Tudo Limpo!
 
