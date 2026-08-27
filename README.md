@@ -321,6 +321,12 @@ Comando:
 chmod +x scripts/*.sh
 ```
 
+### Baixar a aplicação que será deployada no conteiner no EC2
+Comando: 
+```bash
+git clone https://github.com/dhuberto/docker.git app-nodejs
+```
+
 
 ### Configurar Ansible Vault
 Comandos: 
