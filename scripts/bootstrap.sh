@@ -2,35 +2,30 @@
 set -e
 
 echo "=========================================="
-echo " BOOTSTRAP - Criando infraestrutura base"
+echo "BOOTSTRAP - Criando infraestrutura base"
 echo "=========================================="
 
-# Cores para output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
 # 1. Criar bucket S3
-echo -e "\n${YELLOW}Criando bucket S3...${NC}"
+echo ""
+echo "Criando bucket S3..."
 BUCKET_NAME="danilo-terraform-backend-2026"
 if aws s3 ls "s3://$BUCKET_NAME" 2>&1 | grep -q 'NoSuchBucket'; then
     aws s3api create-bucket \
         --bucket $BUCKET_NAME \
-        --region us-east-1 \
-        --create-bucket-configuration LocationConstraint=us-east-1
-    echo -e "${GREEN}Bucket criado: $BUCKET_NAME${NC}"
+        --region us-east-1
+    echo "Bucket criado: $BUCKET_NAME"
 else
-    echo -e "${YELLOW}Bucket já existe: $BUCKET_NAME${NC}"
+    echo "Bucket ja existe: $BUCKET_NAME"
 fi
 
-# 2. Versão do bucket
+# 2. Versao do bucket
 aws s3api put-bucket-versioning \
     --bucket $BUCKET_NAME \
     --versioning-configuration Status=Enabled
 
 # 3. Criar tabela DynamoDB
-echo -e "\n${YELLOW}🗄️ Criando tabela DynamoDB...${NC}"
+echo ""
+echo "Criando tabela DynamoDB..."
 TABLE_NAME="terraform-locks"
 if aws dynamodb describe-table --table-name $TABLE_NAME 2>&1 | grep -q 'ResourceNotFoundException'; then
     aws dynamodb create-table \
@@ -39,18 +34,20 @@ if aws dynamodb describe-table --table-name $TABLE_NAME 2>&1 | grep -q 'Resource
         --key-schema AttributeName=LockID,KeyType=HASH \
         --billing-mode PAY_PER_REQUEST \
         --region us-east-1
-    echo -e "${GREEN}Tabela criada: $TABLE_NAME${NC}"
+    echo "Tabela criada: $TABLE_NAME"
 else
-    echo -e "${YELLOW}Tabela já existe: $TABLE_NAME${NC}"
+    echo "Tabela ja existe: $TABLE_NAME"
 fi
 
 # 4. Esperar a tabela ficar ativa
-echo -e "\n${YELLOW}Aguardando tabela ficar ativa...${NC}"
+echo ""
+echo "Aguardando tabela ficar ativa..."
 aws dynamodb wait table-exists --table-name $TABLE_NAME
-echo -e "${GREEN}Tabela pronta!${NC}"
+echo "Tabela pronta!"
 
-# 5. Criar Key Pair (se não existir)
-echo -e "\n${YELLOW}Verificando Key Pair...${NC}"
+# 5. Criar Key Pair (se nao existir)
+echo ""
+echo "Verificando Key Pair..."
 KEY_NAME="danilo-key"
 if aws ec2 describe-key-pairs --key-name $KEY_NAME 2>&1 | grep -q 'InvalidKeyPair.NotFound'; then
     aws ec2 create-key-pair \
@@ -58,11 +55,36 @@ if aws ec2 describe-key-pairs --key-name $KEY_NAME 2>&1 | grep -q 'InvalidKeyPai
         --query 'KeyMaterial' \
         --output text > ~/.ssh/$KEY_NAME.pem
     chmod 400 ~/.ssh/$KEY_NAME.pem
-    echo -e "${GREEN}Key Pair criado: $KEY_NAME${NC}"
+    echo "Key Pair criado: $KEY_NAME"
 else
-    echo -e "${YELLOW}Key Pair já existe: $KEY_NAME${NC}"
+    echo "Key Pair ja existe: $KEY_NAME"
 fi
 
-echo -e "\n${GREEN}=========================================="
-echo "BOOTSTRAP CONCLUÍDO COM SUCESSO!"
-echo "==========================================${NC}"
+# 6. Verificar se a chave privada existe
+if [ ! -f ~/.ssh/$KEY_NAME.pem ]; then
+    echo "Chave privada nao encontrada: ~/.ssh/$KEY_NAME.pem"
+    echo "Criando chave novamente..."
+    aws ec2 create-key-pair \
+        --key-name $KEY_NAME \
+        --query 'KeyMaterial' \
+        --output text > ~/.ssh/$KEY_NAME.pem
+    chmod 400 ~/.ssh/$KEY_NAME.pem
+    echo "Chave criada: ~/.ssh/$KEY_NAME.pem"
+fi
+
+# 7. Verificar permissao da chave
+echo ""
+echo "Verificando permissao da chave..."
+chmod 400 ~/.ssh/$KEY_NAME.pem
+ls -la ~/.ssh/$KEY_NAME.pem
+
+echo ""
+echo "=========================================="
+echo "BOOTSTRAP CONCLUIDO COM SUCESSO!"
+echo "=========================================="
+echo ""
+echo "Recursos criados:"
+echo "  - Bucket S3: $BUCKET_NAME"
+echo "  - Tabela DynamoDB: $TABLE_NAME"
+echo "  - Key Pair: $KEY_NAME"
+echo "  - Chave privada: ~/.ssh/$KEY_NAME.pem"
