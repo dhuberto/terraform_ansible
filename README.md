@@ -22,10 +22,10 @@ Provisionamento de infraestrutura web na AWS com Terraform e configuração auto
 
 # Pré-requisitos
 
+### Pré-requisitos
 - Terraform >= 1.0 instalado
 - Ansible >= 2.9 instalado
 - AWS CLI configurada com credenciais (ou variáveis de ambiente)
-- Bucket S3 (será criado automaticamente pelo `backend-setup.tf`)
 
 ---
 ## Automação com Makefile
@@ -49,23 +49,25 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 ```
 ~/terraform_ansible/
 ├── ansible/
-│   ├── ansible.cfg
-│   ├── playbook.yml
-│   └── vault.yml
+│   ├── ansible.cfg                # Configurações globais do Ansible
+│   ├── playbook.yml               # Playbook principal que configura a instância
+│   └── vault.yml                  # Variáveis sensíveis (criptografadas com ansible-vault)
+│
 ├── scripts/
-│   ├── bootstrap.sh
-│   ├── destroy-all.sh
-│   └── generate-tfvars.sh
+│   ├── bootstrap.sh               # Cria bucket S3, DynamoDB e Key Pair via AWS CLI
+│   ├── destroy-all.sh             # Remove todos os recursos (Terraform + AWS)
+│   └── generate-tfvars.sh         # Gera o arquivo terraform.tfvars automaticamente
+│
 ├── terraform/
-│   ├── backend-setup.tf
-│   ├── main.tf
-│   ├── outputs.tf
-│   ├── providers.tf
-│   ├── terraform.tfvars.example
-│   └── variables.tf
-├── .gitignore
-├── Makefile
-└── README.md
+│   ├── main.tf                    # Recursos AWS (VPC, subnet, EC2) + integração com Ansible
+│   ├── variables.tf               # Declaração de todas as variáveis do projeto
+│   ├── outputs.tf                 # Saídas (IP público, URL, etc.)
+│   ├── providers.tf               # Configuração do provedor AWS e backend remoto S3
+│   └── terraform.tfvars.example   # Exemplo de variáveis (copiar para .tfvars)
+│
+├── .gitignore                     # Arquivos ignorados pelo Git (state, .pem, .tfvars, etc.)
+├── Makefile                       # Automação de tarefas (make setup, make apply-dev, etc.)
+└── README.md                      # Documentação completa do projeto
 ```
 ---
 ## Arquitetura do projeto
