@@ -119,13 +119,21 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-# Instância EC2
+# Instância EC2 com user_data para garantir SSH
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.amazon_linux.id
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = var.key_name
+
+  user_data = <<-EOF
+    #!/bin/bash
+    echo "Habilitando SSH..."
+    systemctl enable sshd
+    systemctl start sshd
+    echo "SSH habilitado com sucesso!"
+  EOF
 
   tags = {
     Name     = "${var.environment}-web-server"
@@ -141,8 +149,8 @@ resource "null_resource" "run_ansible" {
 
   provisioner "local-exec" {
     command = <<EOT
-      echo "Aguardando a instancia ficar pronta para SSH (90 segundos)..."
-      sleep 90
+      echo "Aguardando a instancia ficar pronta para SSH (120 segundos)..."
+      sleep 120
       echo "Executando Ansible playbook..."
       cd ../ansible && \
       ANSIBLE_HOST_KEY_CHECKING=False \
@@ -154,10 +162,6 @@ resource "null_resource" "run_ansible" {
     EOT
   }
 
-  triggers = {
-    instance_id = aws_instance.web.id
-  }
-}
   triggers = {
     instance_id = aws_instance.web.id
   }
