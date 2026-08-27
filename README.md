@@ -34,18 +34,23 @@ Provisionamento de infraestrutura web na AWS com Terraform e configuração auto
 
 ```
 ~/terraform_ansible/
-├── terraform/
-│ ├── main.tf # Recursos AWS + local-exec para Ansible
-│ ├── variables.tf # Variáveis
-│ ├── outputs.tf # Outputs
-│ ├── providers.tf # Provider e backend remoto
-│ ├── backend-setup.tf # Criação do bucket e tabela (executado uma vez)
-│ └── terraform.tfvars.example # Exemplo de variáveis
 ├── ansible/
-│ ├── ansible.cfg
-│ ├── playbook.yml # Instala Docker e executa container
-│ └── vault.yml # Variáveis sensíveis (criptografado)
+│   ├── ansible.cfg
+│   ├── playbook.yml
+│   └── vault.yml
+├── scripts/
+│   ├── bootstrap.sh
+│   ├── destroy-all.sh
+│   └── generate-tfvars.sh
+├── terraform/
+│   ├── backend-setup.tf
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── terraform.tfvars.example
+│   └── variables.tf
 ├── .gitignore
+├── Makefile
 └── README.md
 ```
 ---
