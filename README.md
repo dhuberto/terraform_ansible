@@ -199,7 +199,7 @@ sudo apt install -y terraform
 ## Instalação do Ansible
 ```bash 
 sudo apt update
-sudo apt install -y ansible python3-pip pip3 install boto3 botocore
+sudo apt install -y ansible python3-pip
 ```
 
 ## Crie conta AWS em aws.amazon.com e Instale do AWS CLI v2
