@@ -314,16 +314,10 @@ make setup
 ```
 
 
-### Voltar para terraform
-Comando: 
-```bash
-cd ~/terraform_ansible/terraform
-```
-
 ### Inicializar
 Comando: 
 ```bash
-terraform init -reconfigure
+cd terraform && terraform init -reconfigure
 ```
 
 ### Validar
