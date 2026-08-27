@@ -346,15 +346,13 @@ Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-application_url = "http://54.87.207.32:3000"
-instance_public_dns = "ec2-54-87-207-32.compute-1.amazonaws.com"
-instance_public_ip = "54.87.207.32"
+application_url = "http://34.239.42.198:3000"
+instance_public_dns = "ec2-34-239-42-198.compute-1.amazonaws.com"
+instance_public_ip = "34.239.42.198"
 security_group_id = "sg-01555b608ec8c9a5f"
 workspace_atual = "dev"
 
 ```
-<img width="917" height="586" alt="{9132D8BB-CB8B-4465-9427-DC8335E3AE57}" src="https://github.com/user-attachments/assets/1c334be6-508f-45db-8991-965713bd0c37" /> 
-
 <img width="1104" height="714" alt="{F403E928-0C32-4180-B777-C6B244FB3404}" src="https://github.com/user-attachments/assets/2e2427bc-581a-4e57-bf9c-3000a16114ef" />
 
 
@@ -371,16 +369,14 @@ Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-application_url = "http://98.93.113.117:3000"
-instance_public_dns = "ec2-98-93-113-117.compute-1.amazonaws.com"
-instance_public_ip = "98.93.113.117"
-security_group_id = "sg-0920c4421ac46ec8c"
+application_url = "http://3.81.56.85:3000"
+instance_public_dns = "ec2-3-81-56-85.compute-1.amazonaws.com"
+instance_public_ip = "3.81.56.85"
+security_group_id = "sg-063b8754e3c1ea49f"
 workspace_atual = "prod"
 
 ```
-
-<img width="895" height="552" alt="{2DBB39B8-B891-4E7D-9383-BC35FD3D2306}" src="https://github.com/user-attachments/assets/c2825c1d-3212-4bb7-becf-58714615119f" />
-
+<img width="1088" height="671" alt="{5D5DE59F-26E4-4B39-AF19-99BDBB8794D1}" src="https://github.com/user-attachments/assets/739cffe6-5a32-4a55-ba19-e911c85e9964" />
 
 ### O Resultado são os Output com os endereços de acesso de cada ambiente
 
