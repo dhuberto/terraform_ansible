@@ -276,11 +276,11 @@ usuário está autenticado. Saída esperada:
 ## Configuração inicial
 
 ### Clone o repositório
-Comando: 
+Baixar projeto, Comando: 
 ```bash
 git clone https://github.com/dhuberto/terraform_ansible.git
 ```
-Baixar projeto, Comando: 
+BAcessar o projeto, Comando: 
 ```bash
 cd ~/terraform_ansible
 ```
