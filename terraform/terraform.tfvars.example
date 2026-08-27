@@ -1,0 +1,5 @@
+ssh_allowed_ip   = "SEU_IP_AQUI/32"
+key_name         = "NOME_DO_KEY_PAIR"
+private_key_path = "~/.ssh/sua_chave_privada.pem"
+bucket_name      = "seu-bucket-unico-para-state"
+aws_region       = "us-east-1"

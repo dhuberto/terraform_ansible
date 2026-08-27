@@ -1,0 +1,23 @@
+# Terraform
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfvars
+**/*.tfvars.json
+**/override.tf
+**/override.tf.json
+**/terraform.rc
+
+# Ansible
+**/vault_pass.txt
+**/*.retry
+**/*.vault
+
+# Chaves SSH
+*.pem
+*.key
+*.ppk
+
+# Diretórios de sistema
+.DS_Store
+Thumbs.db

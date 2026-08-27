@@ -1,0 +1,46 @@
+---
+- name: Provisionamento do Servidor Web e Container Docker
+  hosts: all
+  become: true
+  vars_files:
+    - vault.yml
+
+  tasks:
+    - name: Instalar Docker e SDK Python (Amazon Linux 2023)
+      ansible.builtin.dnf:
+        name:
+          - docker
+          - python3-pip
+        state: present
+
+    - name: Instalar SDK Python para Docker (com --ignore-installed)
+      ansible.builtin.pip:
+        name: docker
+        state: present
+        extra_args: --ignore-installed --user
+
+    - name: Garantir que o servico do Docker esta em execucao e habilitado
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Adicionar o usuario ec2-user ao grupo docker
+      ansible.builtin.user:
+        name: ec2-user
+        groups: docker
+        append: true
+
+    - name: Resetar conexao para aplicar o grupo docker
+      ansible.builtin.meta:
+        reset_connection
+
+    - name: Baixar a imagem Docker (como ec2-user, sem root)
+      ansible.builtin.shell:
+        cmd: docker pull docker/getting-started
+      become: false  # Executa como ec2-user (já no grupo docker)
+
+    - name: Executar o container (como ec2-user, sem root)
+      ansible.builtin.shell:
+        cmd: docker run -d -p 3000:3000 --name getting-started-app docker/getting-started
+      become: false  # Executa como ec2-user
