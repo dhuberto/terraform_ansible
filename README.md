@@ -355,6 +355,7 @@ workspace_atual = "dev"
 ```
 <img width="917" height="586" alt="{9132D8BB-CB8B-4465-9427-DC8335E3AE57}" src="https://github.com/user-attachments/assets/1c334be6-508f-45db-8991-965713bd0c37" /> 
 
+<img width="1104" height="714" alt="{F403E928-0C32-4180-B777-C6B244FB3404}" src="https://github.com/user-attachments/assets/2e2427bc-581a-4e57-bf9c-3000a16114ef" />
 
 
 ### Levantar o ambiente PROD
