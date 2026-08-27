@@ -29,7 +29,6 @@ Provisionamento de infraestrutura web na AWS com Terraform e configuração auto
 
 ---
 
-## Estrutura do projeto
 ---
 ## Estrutura do projeto
 
@@ -50,7 +49,7 @@ Provisionamento de infraestrutura web na AWS com Terraform e configuração auto
 └── README.md
 ```
 ---
-## EArquitetura do projeto
+## Arquitetura do projeto
 ```
 Internet
    |
