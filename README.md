@@ -498,12 +498,8 @@ DESTRUICAO COMPLETA CONCLUIDA!
 
 Comando:
 ```bash
-cd ..
-```
-Comando:
-```bash
-rm -rf ~/terraform_ansible
+cd ~ && rm -rf terraform_ansible
 ```
 Tudo Limpo!
 
-[![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/dhuberto/aula_iac/archive/main.zip)
+[![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/dhuberto/terraform_ansible/archive/main.zip)
