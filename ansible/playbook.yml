@@ -35,12 +35,12 @@
       ansible.builtin.meta:
         reset_connection
 
-    - name: Baixar a imagem Docker (como ec2-user, sem root)
+    - name: Baixar a imagem Docker da aplicacao getting-started (via shell)
       ansible.builtin.shell:
         cmd: docker pull docker/getting-started
-      become: false  # Executa como ec2-user (já no grupo docker)
+      become: false
 
-    - name: Executar o container (como ec2-user, sem root)
+    - name: Executar o container da aplicacao na porta 3000 (via shell)
       ansible.builtin.shell:
-        cmd: docker run -d -p 3000:3000 --name getting-started-app docker/getting-started
-      become: false  # Executa como ec2-user
+        cmd: docker run -d -p 3000:80 --name getting-started-app docker/getting-started
+      become: false
