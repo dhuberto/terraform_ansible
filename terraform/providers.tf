@@ -12,7 +12,7 @@ terraform {
     bucket         = "danilo-terraform-backend-2026"
     key            = "terraform_ansible/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-locks"
+    use_lockfile   = true
     encrypt        = true
   }
 }
