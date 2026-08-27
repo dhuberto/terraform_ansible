@@ -158,11 +158,11 @@ usuário está autenticado. Saída esperada:
 ### Clone o repositório
 Comando: 
 ```bash
-git clone https://github.com/dhuberto/aula_iac.git
+git clone https://github.com/dhuberto/terraform_ansible.git
 ```
 Comando: 
 ```bash
-cd ~/aula_iac
+cd ~/terraform_ansible/terraform
 ```
 ### Validações e Formatação dos Confs
 Comando: 
