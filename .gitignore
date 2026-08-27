@@ -18,6 +18,9 @@ terraform.rc
 *.key
 *.ppk
 
+# Aplicação Node.js
+app-nodejs/
+
 # Diretórios de sistema
 .DS_Store
 Thumbs.db
