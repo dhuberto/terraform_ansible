@@ -417,7 +417,7 @@ make help
 
 
 
-Comando: 
+Comando para apagar tudo: 
 ```bash
 make destroy
 ```
