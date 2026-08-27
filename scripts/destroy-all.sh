@@ -31,13 +31,19 @@ terraform destroy -auto-approve -lock=false
 
 echo "Recursos do Terraform destruidos!"
 
-# 2. Remover bucket S3
+# 2. Remover bucket S3 (com todas as versoes)
 echo ""
 echo "Removendo bucket S3..."
 BUCKET_NAME="danilo-terraform-backend-2026"
 if aws s3 ls "s3://$BUCKET_NAME" 2>&1 | grep -q 'NoSuchBucket'; then
     echo "Bucket ja nao existe: $BUCKET_NAME"
 else
+    echo "Removendo todas as versoes do bucket..."
+    # Remover versoes
+    aws s3api delete-objects --bucket $BUCKET_NAME --delete "$(aws s3api list-object-versions --bucket $BUCKET_NAME --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}' --output json)" 2>/dev/null || true
+    # Remover delete markers
+    aws s3api delete-objects --bucket $BUCKET_NAME --delete "$(aws s3api list-object-versions --bucket $BUCKET_NAME --query='{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}' --output json)" 2>/dev/null || true
+    # Remover bucket
     aws s3 rb s3://$BUCKET_NAME --force
     echo "Bucket removido: $BUCKET_NAME"
 fi
