@@ -335,10 +335,13 @@ cd ~/terraform_ansible/ansible
 echo "admin123" > vault_pass.txt
 chmod 600 vault_pass.txt
 echo "admin_password: 'admin123'" > vault.yml
+echo "postgres_password: 'postgres123'" >> vault.yml
 ansible-vault encrypt vault.yml
 
 #Digite a senha: admin123
 #repita: admin123
+
+Senhas de exemplo;
 ```
 
 
