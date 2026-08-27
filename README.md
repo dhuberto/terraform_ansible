@@ -28,6 +28,20 @@ Provisionamento de infraestrutura web na AWS com Terraform e configuração auto
 - Bucket S3 (será criado automaticamente pelo `backend-setup.tf`)
 
 ---
+## Automação com Makefile
+
+Simplifica a execução de tarefas complexas. Comandos como make setup, make apply-dev, e make destroy agora orquestram todo o fluxo, desde a criação da infraestrutura base até a destruição dos recursos.
+
+Scripts Modulares:
+
+    bootstrap.sh: Cria a infraestrutura base (bucket S3, tabela DynamoDB e chave SSH), que é um pré-requisito para o Terraform.
+
+    destroy-all.sh: Garante a remoção completa e segura de todos os recursos, incluindo a limpeza de versões do bucket S3, resolvendo o problema comum de BucketNotEmpty.
+
+    generate-tfvars.sh: Automatiza a criação do arquivo terraform.tfvars, preenchendo automaticamente seu IP público e o nome do Key Pair, reduzindo erros manuais.
+
+Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um fluxo de trabalho padronizado, testável e fácil de replicar para uma primeira criação de ambiente.
+
 
 ---
 ## Estrutura do projeto
