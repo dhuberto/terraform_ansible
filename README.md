@@ -42,6 +42,36 @@ Scripts Modulares:
 
 Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um fluxo de trabalho padronizado, testável e fácil de replicar para uma primeira criação de ambiente.
 
+## Aplicação Deployada
+
+Este projeto implanta automaticamente a aplicação **Cadastro de Nomes com Node.js & PostgreSQL**, cujo código-fonte está disponível no repositório: [dhuberto/docker](https://github.com/dhuberto/docker).
+
+### Sobre a Aplicação
+
+A aplicação é uma **aplicação web monolítica com renderização no servidor (SSR)**, desenvolvida para demonstrar na prática como construir, estruturar e containerizar um ecossistema focado em **Node.js** e banco de dados **PostgreSQL** utilizando as melhores práticas de Docker.
+
+**Funcionalidades principais:**
+- **Cadastro Simples:** Permite o envio de nomes através de um formulário web dinâmico.
+- **Renderização no Servidor (SSR):** Lista em tempo real os nomes salvos no banco de dados, ordenados pelos mais recentes.
+- **Monitoramento:** Exibe o status da conexão com o banco de dados diretamente na tela.
+
+### Arquitetura da Aplicação no Projeto
+
+A aplicação é executada em dois containers Docker orquestrados dentro da instância EC2 provisionada:
+
+1. **Container `postgres-db`**: Banco de dados PostgreSQL, que persiste os dados em um volume Docker.
+2. **Container `nodejs-app`**: Aplicação Node.js que se conecta ao banco de dados via rede interna do Docker.
+
+A comunicação entre os containers é feita através de uma rede Docker interna chamada `app-network`, garantindo isolamento e resolução de nomes (o container da aplicação encontra o banco pelo hostname `postgres-db`).
+
+### Como o código da aplicação chega na EC2
+
+O fluxo de entrega do código é feito da seguinte forma:
+
+1. **Repositório local**: O código da aplicação está no repositório [dhuberto/docker](https://github.com/dhuberto/docker).
+2. **Clone local**: Durante a configuração do projeto, o repositório é clonado para dentro do diretório do projeto `terraform_ansible`:
+   ```bash
+   git clone https://github.com/dhuberto/docker.git app-nodejs
 
 ---
 ## Estrutura do projeto
