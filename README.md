@@ -241,12 +241,10 @@ terraform validate
 ### voltar para o diretório principal
 Comando: 
 ```bash
-cd ..
+cd ~/terraform_ansible
 ```
 
-
 ### Crie os workspaces dos ambientes separados e aplique:
-
 ### Levantar o ambiente DEV
 Comando: 
 ```bash
