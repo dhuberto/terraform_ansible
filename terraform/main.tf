@@ -135,33 +135,14 @@ resource "aws_instance" "web" {
   }
 }
 
-# Recurso para validar SSH antes de executar o Ansible
-resource "null_resource" "wait_for_ssh" {
-  depends_on = [aws_instance.web]
-
-  provisioner "remote-exec" {
-    inline = ["echo 'SSH ready'"]
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file(var.private_key_path)
-      host        = aws_instance.web.public_ip
-      timeout     = "10m"
-    }
-  }
-
-  triggers = {
-    instance_id = aws_instance.web.id
-  }
-}
-
 # Recurso para executar o Ansible localmente
 resource "null_resource" "run_ansible" {
-  depends_on = [null_resource.wait_for_ssh]
+  depends_on = [aws_instance.web]
 
   provisioner "local-exec" {
     command = <<EOT
+      echo "Aguardando a instancia ficar pronta para SSH (90 segundos)..."
+      sleep 90
       echo "Executando Ansible playbook..."
       cd ../ansible && \
       ANSIBLE_HOST_KEY_CHECKING=False \
@@ -173,6 +154,10 @@ resource "null_resource" "run_ansible" {
     EOT
   }
 
+  triggers = {
+    instance_id = aws_instance.web.id
+  }
+}
   triggers = {
     instance_id = aws_instance.web.id
   }
