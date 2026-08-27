@@ -5,22 +5,17 @@ echo "=========================================="
 echo "Gerando terraform.tfvars"
 echo "=========================================="
 
-# Cores para output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
-
-# Pega o IP público
+# Pega o IP publico
 IP=$(curl -s https://checkip.amazonaws.com)
-echo -e "${YELLOW}📡 IP público: $IP${NC}"
+echo "IP publico: $IP"
 
 # Pega o nome do Key Pair
 KEY_NAME=$(aws ec2 describe-key-pairs --query 'KeyPairs[0].KeyName' --output text)
 if [ -z "$KEY_NAME" ]; then
-    echo "Nenhum Key Pair encontrado na AWS. Execute o bootstrap.sh primeiro."
+    echo "ERRO: Nenhum Key Pair encontrado na AWS. Execute o bootstrap.sh primeiro."
     exit 1
 fi
-echo -e "${YELLOW}Key Pair: $KEY_NAME${NC}"
+echo "Key Pair: $KEY_NAME"
 
 # Gera o arquivo terraform.tfvars
 cat > ~/terraform_ansible/terraform/terraform.tfvars << EOF
@@ -31,7 +26,8 @@ bucket_name      = "danilo-terraform-backend-2026"
 aws_region       = "us-east-1"
 EOF
 
-echo -e "${GREEN}terraform.tfvars criado com sucesso!${NC}"
+echo ""
+echo "terraform.tfvars criado com sucesso!"
 echo "------------------------------------------"
 cat ~/terraform_ansible/terraform/terraform.tfvars
 echo "------------------------------------------"
