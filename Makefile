@@ -27,13 +27,13 @@ bootstrap: ## Cria bucket S3 e tabela DynamoDB
 	@echo "${GREEN}Executando bootstrap...${RESET}"
 	@./scripts/bootstrap.sh
 
-apply-dev: ## Aplica no ambiente DEV
+apply-dev: ## Aplica no ambiente DEV (cria o workspace se não existir)
 	@echo "${GREEN}Aplicando ambiente DEV...${RESET}"
-	@cd terraform && terraform workspace select dev && terraform apply -auto-approve
+	@cd terraform && (terraform workspace new dev 2>/dev/null || terraform workspace select dev) && terraform apply -auto-approve
 
-apply-prod: ## Aplica no ambiente PROD
+apply-prod: ## Aplica no ambiente PROD (cria o workspace se não existir)
 	@echo "${GREEN}Aplicando ambiente PROD...${RESET}"
-	@cd terraform && terraform workspace select prod && terraform apply -auto-approve
+	@cd terraform && (terraform workspace new prod 2>/dev/null || terraform workspace select prod) && terraform apply -auto-approve
 
 destroy: ## Destrói todos os recursos (CUIDADO!)
 	@echo "${RED}ATENÇÃO: Isso vai destruir TODOS os recursos!${RESET}"
