@@ -39,11 +39,8 @@ if aws s3 ls "s3://$BUCKET_NAME" 2>&1 | grep -q 'NoSuchBucket'; then
     echo "Bucket ja nao existe: $BUCKET_NAME"
 else
     echo "Removendo todas as versoes do bucket..."
-    # Remover versoes
     aws s3api delete-objects --bucket $BUCKET_NAME --delete "$(aws s3api list-object-versions --bucket $BUCKET_NAME --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}' --output json)" 2>/dev/null || true
-    # Remover delete markers
     aws s3api delete-objects --bucket $BUCKET_NAME --delete "$(aws s3api list-object-versions --bucket $BUCKET_NAME --query='{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}' --output json)" 2>/dev/null || true
-    # Remover bucket
     aws s3 rb s3://$BUCKET_NAME --force
     echo "Bucket removido: $BUCKET_NAME"
 fi
@@ -59,10 +56,10 @@ else
     echo "Tabela removida: $TABLE_NAME"
 fi
 
-# 4. Remover Key Pair da AWS
+# 4. Remover Key Pair da AWS (vockey)
 echo ""
 echo "Removendo Key Pair da AWS..."
-KEY_NAME="danilo-key"
+KEY_NAME="vockey"
 if aws ec2 describe-key-pairs --key-name $KEY_NAME 2>&1 | grep -q 'InvalidKeyPair.NotFound'; then
     echo "Key Pair ja nao existe: $KEY_NAME"
 else
@@ -70,11 +67,11 @@ else
     echo "Key Pair removido: $KEY_NAME"
 fi
 
-# 5. Remover chave privada local
+# 5. Remover chave privada local (vockey)
 echo ""
 echo "Removendo chave privada local..."
-rm -f ~/.ssh/$KEY_NAME.pem
-echo "Chave privada removida"
+rm -f /home/danilo/.ssh/$KEY_NAME.pem
+echo "Chave privada removida: /home/danilo/.ssh/$KEY_NAME.pem"
 
 # 6. Remover estado local do Terraform
 echo ""
