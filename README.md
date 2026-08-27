@@ -44,7 +44,7 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 
 ## Aplicação Deployada
 
-Este projeto implanta automaticamente a aplicação **Cadastro de Nomes com Node.js & PostgreSQL**, cujo código-fonte está disponível no repositório: [dhuberto/docker](https://github.com/dhuberto/docker).
+Este projeto implanta a aplicação **Cadastro de Nomes com Node.js & PostgreSQL**, cujo código-fonte está disponível no repositório: [dhuberto/docker](https://github.com/dhuberto/docker).
 
 ### Sobre a Aplicação
 
