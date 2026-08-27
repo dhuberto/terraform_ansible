@@ -1,3 +1,11 @@
+<img width="917" height="586" alt="{9132D8BB-CB8B-4465-9427-DC8335E3AE57}" src="https://github.com/user-attachments/assets/1c334be6-508f-45db-8991-965713bd0c37" />
+
+prod
+<img width="895" height="552" alt="{2DBB39B8-B891-4E7D-9383-BC35FD3D2306}" src="https://github.com/user-attachments/assets/c2825c1d-3212-4bb7-becf-58714615119f" />
+
+
+
+
 # Atividade Final 2 – Terraform e Ansible
 
 Provisionamento de infraestrutura web na AWS com Terraform e configuração automatizada com Ansible, utilizando state remoto S3 com DynamoDB para lock, workspaces (dev/prod), e Ansible Vault para dados sensíveis.
