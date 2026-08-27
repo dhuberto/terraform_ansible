@@ -309,6 +309,7 @@ ansible-vault encrypt vault.yml
 ### Executar configuração completa
 Comando: 
 ```bash
+cd ~/terraform_ansible
 make setup
 ```
 
