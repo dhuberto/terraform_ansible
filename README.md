@@ -77,24 +77,24 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 |                             |
 |  Terraform                  |
 |  (make apply-dev/prod)      |
-|  |                         |
-|  +---> 1. Provisiona       |
-|  |                         |
+|  |                          |
+|  +---> 1. Provisiona        |
+|  |                          |
 |  +---> 2. Executa local-exec|
-|         (sleep 90)         |
-|         (chama Ansible)    |
+|         (sleep 90)          |
+|         (chama Ansible)     |
 |                             |
 |  Ansible                    |
-|  (playbook.yml)            |
-|  |                         |
-|  +---> 3. Configura via SSH|
+|  (playbook.yml)             |
+|  |                          |
+|  +---> 3. Configura via SSH |
 |                             |
 +--------------+--------------+
                |
                | (SSH)
                v
 +------------------------------------------------------+
-|                    AMAZON WEB SERVICES (AWS)          |
+|                    AMAZON WEB SERVICES (AWS)         |
 +------------------------------------------------------+
 |                                                      |
 |  +------------------------------------------------+  |
@@ -105,8 +105,8 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 |  |  |                                          |  |  |
 |  |  |  +------------------------------------+  |  |  |
 |  |  |  |      Security Group                |  |  |  |
-|  |  |  |  - Porta 22 (SSH): SEU_IP/32      |  |  |  |
-|  |  |  |  - Porta 3000 (App): 0.0.0.0/0    |  |  |  |
+|  |  |  |  - Porta 22 (SSH): SEU_IP/32       |  |  |  |
+|  |  |  |  - Porta 3000 (App): 0.0.0.0/0     |  |  |  |
 |  |  |  +------------------------------------+  |  |  |
 |  |  |                                          |  |  |
 |  |  |  +------------------------------------+  |  |  |
@@ -136,12 +136,12 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 |                                                      |
 |  +------------------------------------------------+  |
 |  |    INTERNET GATEWAY (IGW)                      |  |
-|  |    - Conecta a VPC à Internet                 |  |
+|  |    - Conecta a VPC à Internet                  |  |
 |  +------------------------------------------------+  |
 |                                                      |
 |  +------------------------------------------------+  |
 |  |    ROUTE TABLE (Pública)                       |  |
-|  |    - Rota: 0.0.0.0/0 -> IGW                   |  |
+|  |    - Rota: 0.0.0.0/0 -> IGW                    |  |
 |  +------------------------------------------------+  |
 |                                                      |
 |  +------------------------------------------------+  |
@@ -154,11 +154,11 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 +------------------------------------------------------+
 
 +------------------------------------------------------+
-|                INTERNET (USUÁRIO)                     |
+|                INTERNET (USUÁRIO)                    |
 +------------------------------------------------------+
 |                                                      |
 |  Acessa a aplicação via navegador:                   |
-|  http://<IP_PUBLICO_EC2>:3000                       |
+|  http://<IP_PUBLICO_EC2>:3000                        |
 |                                                      |
 +------------------------------------------------------+
 ```
@@ -194,7 +194,7 @@ Comando:
 ```bash 
 sudo apt install -y terraform
 ```
-Instalação do Ansible
+## Instalação do Ansible
 ```bash 
 sudo apt update
 sudo apt install -y ansible python3-pip
