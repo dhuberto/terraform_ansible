@@ -50,6 +50,29 @@ Provisionamento de infraestrutura web na AWS com Terraform e configuração auto
 └── README.md
 ```
 ---
+## EArquitetura do projeto
+```
+Internet
+   |
+[Internet Gateway]
+   |
+VPC (10.0.0.0/16)
+   |
+Subnet Pública (10.0.1.0/24)
+   |
+Security Group (Portas 22, 3000)
+   |
++------------------------------------------+
+| EC2 t3.micro                             | <-- Provisionada pelo Terraform
+|  - Docker Engine                         | <-- Instalado pelo Ansible
+|  - getting-started-app (porta 3000:80)   | <-- Container executado pelo Ansible
++------------------------------------------+
+   ^
+   |
+terraform apply --> local-exec (sleep 90) --> ansible-playbook
+```
+
+---
 
 ## Preparação do Ambiente
 
