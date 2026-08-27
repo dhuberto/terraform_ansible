@@ -70,24 +70,97 @@ Fluxo de Trabalho Robusto: A combinação do Makefile com os scripts cria um flu
 ---
 ## Arquitetura do projeto
 ```
-Internet
-   |
-[Internet Gateway]
-   |
-VPC (10.0.0.0/16)
-   |
-Subnet Pública (10.0.1.0/24)
-   |
-Security Group (Portas 22, 3000)
-   |
-+------------------------------------------+
-| EC2 t3.micro                             | <-- Provisionada pelo Terraform
-|  - Docker Engine                         | <-- Instalado pelo Ansible
-|  - getting-started-app (porta 3000:80)   | <-- Container executado pelo Ansible
-+------------------------------------------+
-   ^
-   |
-terraform apply --> local-exec (sleep 90) --> ansible-playbook
++-----------------------------+
+|                             |
+|    (Control Node)           |
++-----------------------------+
+|                             |
+|  Terraform                  |
+|  (make apply-dev/prod)      |
+|  |                         |
+|  +---> 1. Provisiona       |
+|  |                         |
+|  +---> 2. Executa local-exec|
+|         (sleep 90)         |
+|         (chama Ansible)    |
+|                             |
+|  Ansible                    |
+|  (playbook.yml)            |
+|  |                         |
+|  +---> 3. Configura via SSH|
+|                             |
++--------------+--------------+
+               |
+               | (SSH)
+               v
++------------------------------------------------------+
+|                    AMAZON WEB SERVICES (AWS)          |
++------------------------------------------------------+
+|                                                      |
+|  +------------------------------------------------+  |
+|  |               VPC (10.0.0.0/16)                |  |
+|  |                                                |  |
+|  |  +------------------------------------------+  |  |
+|  |  |        Subnet Pública (10.0.1.0/24)      |  |  |
+|  |  |                                          |  |  |
+|  |  |  +------------------------------------+  |  |  |
+|  |  |  |      Security Group                |  |  |  |
+|  |  |  |  - Porta 22 (SSH): SEU_IP/32      |  |  |  |
+|  |  |  |  - Porta 3000 (App): 0.0.0.0/0    |  |  |  |
+|  |  |  +------------------------------------+  |  |  |
+|  |  |                                          |  |  |
+|  |  |  +------------------------------------+  |  |  |
+|  |  |  |      EC2 Instância (t3.micro)      |  |  |  |
+|  |  |  |   - Amazon Linux 2023 (AMI)        |  |  |  |
+|  |  |  |   - Key Pair: vockey               |  |  |  |
+|  |  |  |   - user_data: Habilita SSH        |  |  |  |
+|  |  |  |                                    |  |  |  |
+|  |  |  |  +------------------------------+  |  |  |  |
+|  |  |  |  |  DOCKER ENGINE (Instalado)   |  |  |  |  |
+|  |  |  |  |  - Instalado pelo Ansible    |  |  |  |  |
+|  |  |  |  |  - Executa o container       |  |  |  |  |
+|  |  |  |  +------------------------------+  |  |  |  |
+|  |  |  |                                    |  |  |  |
+|  |  |  |  +------------------------------+  |  |  |  |
+|  |  |  |  |  CONTAINER (getting-started) |  |  |  |  |
+|  |  |  |  |  - Imagem: docker/getting-   |  |  |  |  |
+|  |  |  |  |    started                   |  |  |  |  |
+|  |  |  |  |  - Porta: 3000:80 (host:     |  |  |  |  |
+|  |  |  |  |    container)                |  |  |  |  |
+|  |  |  |  |  - Variável: ADMIN_PASSWORD  |  |  |  |  |
+|  |  |  |  |    (do vault)                |  |  |  |  |
+|  |  |  |  +------------------------------+  |  |  |  |
+|  |  |  +------------------------------------+  |  |  |
+|  |  +------------------------------------------+  |  |
+|  +------------------------------------------------+  |
+|                                                      |
+|  +------------------------------------------------+  |
+|  |    INTERNET GATEWAY (IGW)                      |  |
+|  |    - Conecta a VPC à Internet                 |  |
+|  +------------------------------------------------+  |
+|                                                      |
+|  +------------------------------------------------+  |
+|  |    ROUTE TABLE (Pública)                       |  |
+|  |    - Rota: 0.0.0.0/0 -> IGW                   |  |
+|  +------------------------------------------------+  |
+|                                                      |
+|  +------------------------------------------------+  |
+|  |    STATE REMOTO (S3 + DynamoDB)                |  |
+|  |    - S3: danilo-terraform-backend-2026         |  |
+|  |    - DynamoDB: terraform-locks                 |  |
+|  |    - Versionamento e Lock para workspaces      |  |
+|  +------------------------------------------------+  |
+|                                                      |
++------------------------------------------------------+
+
++------------------------------------------------------+
+|                INTERNET (USUÁRIO)                     |
++------------------------------------------------------+
+|                                                      |
+|  Acessa a aplicação via navegador:                   |
+|  http://<IP_PUBLICO_EC2>:3000                       |
+|                                                      |
++------------------------------------------------------+
 ```
 
 ---
