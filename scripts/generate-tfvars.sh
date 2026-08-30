@@ -33,7 +33,7 @@ fi
 cat > ~/terraform_ansible/terraform/terraform.tfvars << EOF
 ssh_allowed_ip   = "$IP/32"
 key_name         = "$KEY_NAME"
-private_key_path = "/home/danilo/.ssh/$KEY_NAME.pem"
+private_key_path = "~/.ssh/$KEY_NAME.pem"
 bucket_name      = "danilo-terraform-backend-2026"
 aws_region       = "us-east-1"
 EOF
