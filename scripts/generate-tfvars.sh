@@ -24,6 +24,7 @@ fi
 if [ ! -f ~/.ssh/$KEY_NAME.pem ]; then
     echo "Chave privada nao encontrada: ~/.ssh/$KEY_NAME.pem"
     echo "Baixando chave $KEY_NAME..."
+    chmod 700 ~/.ssh/$KEY_NAME.pem
     aws ec2 create-key-pair --key-name $KEY_NAME --query 'KeyMaterial' --output text > ~/.ssh/$KEY_NAME.pem
     chmod 400 ~/.ssh/$KEY_NAME.pem
     echo "Chave baixada: ~/.ssh/$KEY_NAME.pem"
