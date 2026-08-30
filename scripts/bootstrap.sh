@@ -59,7 +59,6 @@ else
 fi
 
 # Cria a nova chave
-chmod 700 ~/.ssh/$KEY_NAME.pem
 aws ec2 create-key-pair \
     --key-name $KEY_NAME \
     --query 'KeyMaterial' \
