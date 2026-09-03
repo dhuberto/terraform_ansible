@@ -1,4 +1,4 @@
-# Atividade 2 - Final  – Terraform e Ansible
+# Terraform + Ansible + AWS
 
 Provisionamento de infraestrutura web na AWS com Terraform e configuração automatizada com Ansible, utilizando state remoto S3 com DynamoDB para lock, workspaces (dev/prod), e Ansible Vault para dados sensíveis.
 
@@ -69,7 +69,7 @@ A comunicação entre os containers é feita através de uma rede Docker interna
 O fluxo de entrega do código é feito da seguinte forma:
 
 1. **Repositório local**: O código da aplicação está no repositório [dhuberto/docker](https://github.com/dhuberto/docker).
-2. **Clone local**: Durante a configuração do projeto, o repositório é clonado para dentro do diretório do projeto `terraform_ansible`:
+2. **Clone local**: Durante a configuração do projeto, o repositório é clonado para dentro do diretório do projeto `terraform_ansible_aws`:
    ```bash
    git clone https://github.com/dhuberto/docker.git app-nodejs
 
@@ -77,7 +77,7 @@ O fluxo de entrega do código é feito da seguinte forma:
 ## Estrutura do projeto
 
 ```
-~/terraform_ansible/
+~/terraform_ansible_aws/
 ├── ansible/
 │   ├── ansible.cfg                # Configurações globais do Ansible
 │   ├── playbook.yml               # Playbook principal que configura a instância
@@ -309,11 +309,11 @@ usuário está autenticado. Saída esperada:
 ### Clone o repositório
 Baixar projeto, Comando: 
 ```bash
-git clone https://github.com/dhuberto/terraform_ansible.git
+git clone https://github.com/dhuberto/terraform_ansible_aws.git
 ```
 BAcessar o projeto, Comando: 
 ```bash
-cd ~/terraform_ansible
+cd ~/terraform_ansible_aws
 ```
 ### Tornar scripts executáveis
 Comando: 
@@ -331,7 +331,7 @@ git clone https://github.com/dhuberto/docker.git app-nodejs
 ### Configurar Ansible Vault
 Comandos: 
 ```bash
-cd ~/terraform_ansible/ansible
+cd ~/terraform_ansible_aws/ansible
 echo "admin123" > vault_pass.txt
 chmod 600 vault_pass.txt
 echo "admin_password: 'admin123'" > vault.yml
@@ -348,7 +348,7 @@ Senhas de exemplo;
 ### Executar configuração completa
 Comando: 
 ```bash
-cd ~/terraform_ansible
+cd ~/terraform_ansible_aws
 make setup
 ```
 
@@ -368,7 +368,7 @@ terraform validate
 ### voltar para o diretório principal
 Comando: 
 ```bash
-cd ~/terraform_ansible
+cd ~/terraform_ansible_aws
 ```
 
 ### Crie os workspaces dos ambientes separados e aplique:
@@ -424,7 +424,7 @@ Ver ajuda:
 
 Comando: 
 ```bash
-cd ~/terraform_ansible
+cd ~/terraform_ansible_aws
 ```
 
 ```bash
@@ -511,7 +511,7 @@ Removendo todas as versoes do bucket...
 {
     "Deleted": [
         {
-            "Key": "env:/dev/terraform_ansible/terraform.tfstate",
+            "Key": "env:/dev/terraform_ansible_aws/terraform.tfstate",
             "VersionId": "tEbBY1CKzJFPHiuqNtdhC8CU21gvGksI"
         },
 
@@ -544,8 +544,8 @@ DESTRUICAO COMPLETA CONCLUIDA!
 
 Comando:
 ```bash
-cd ~ && rm -rf terraform_ansible
+cd ~ && rm -rf terraform_ansible_aws
 ```
 Tudo Limpo!
 
-[![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/dhuberto/terraform_ansible/archive/main.zip)
+[![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/dhuberto/terraform_ansible_aws/archive/main.zip)
