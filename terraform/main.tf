@@ -28,7 +28,7 @@ resource "aws_vpc" "main" {
     Name     = "${var.environment}-vpc"
     Curso    = "Infraestrutura como Codigo"
     Ambiente = var.environment
-    Projeto  = "terraform_ansible"
+    Projeto  = "terraform_ansible_aws"
   }
 }
 
@@ -43,7 +43,7 @@ resource "aws_subnet" "public" {
     Name     = "${var.environment}-subnet-public"
     Curso    = "Infraestrutura como Codigo"
     Ambiente = var.environment
-    Projeto  = "terraform_ansible"
+    Projeto  = "terraform_ansible_aws"
   }
 }
 
@@ -55,7 +55,7 @@ resource "aws_internet_gateway" "igw" {
     Name     = "${var.environment}-igw"
     Curso    = "Infraestrutura como Codigo"
     Ambiente = var.environment
-    Projeto  = "terraform_ansible"
+    Projeto  = "terraform_ansible_aws"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_route_table" "public" {
     Name     = "${var.environment}-rt-public"
     Curso    = "Infraestrutura como Codigo"
     Ambiente = var.environment
-    Projeto  = "terraform_ansible"
+    Projeto  = "terraform_ansible_aws"
   }
 }
 
@@ -115,7 +115,7 @@ resource "aws_security_group" "web_sg" {
     Name     = "${var.environment}-web-sg"
     Curso    = "Infraestrutura como Codigo"
     Ambiente = var.environment
-    Projeto  = "terraform_ansible"
+    Projeto  = "terraform_ansible_aws"
   }
 }
 
@@ -139,7 +139,7 @@ resource "aws_instance" "web" {
     Name     = "${var.environment}-web-server"
     Curso    = "Infraestrutura como Codigo"
     Ambiente = var.environment
-    Projeto  = "terraform_ansible"
+    Projeto  = "terraform_ansible_aws"
   }
 }
 
