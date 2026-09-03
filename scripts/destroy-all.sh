@@ -17,7 +17,7 @@ fi
 # 1. Destruir recursos do Terraform
 echo ""
 echo "Destruindo recursos do Terraform..."
-cd ~/terraform_ansible/terraform
+cd ~/terraform_ansible_aws/terraform
 
 # DEV
 echo "  - Destruindo workspace dev..."
@@ -76,7 +76,7 @@ echo "Chave privada removida: /home/danilo/.ssh/$KEY_NAME.pem"
 # 6. Remover estado local do Terraform
 echo ""
 echo "Removendo estado local do Terraform..."
-cd ~/terraform_ansible/terraform
+cd ~/terraform_ansible_aws/terraform
 rm -f terraform.tfstate terraform.tfstate.backup
 rm -rf .terraform
 echo "Estado local removido"
