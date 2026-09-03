@@ -267,14 +267,6 @@ O comando vai pedir cinco informações, uma por vez:
 ~/.aws/config
 # São os tokens de login e senha aws
 ```
-
-```bash
-# 2. Ajustar permissões
-
-chmod 400 ~/.aws/credentials
-chmod 400 ~/.aws/config
-```
-
 ## Checklist final de verificação
 Comandos: 
 ```bash 
