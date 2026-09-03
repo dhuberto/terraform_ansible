@@ -31,7 +31,7 @@ if [ ! -f ~/.ssh/$KEY_NAME.pem ]; then
 fi
 
 # Gera o arquivo terraform.tfvars
-cat > ~/terraform_ansible/terraform/terraform.tfvars << EOF
+cat > ~/terraform_ansible_aws/terraform/terraform.tfvars << EOF
 ssh_allowed_ip   = "$IP/32"
 key_name         = "$KEY_NAME"
 private_key_path = "$HOME/.ssh/$KEY_NAME.pem"
@@ -42,5 +42,5 @@ EOF
 echo ""
 echo "terraform.tfvars criado com sucesso!"
 echo "------------------------------------------"
-cat ~/terraform_ansible/terraform/terraform.tfvars
+cat ~/terraform_ansible_aws/terraform/terraform.tfvars
 echo "------------------------------------------"
